@@ -1,9 +1,9 @@
-@extends('layouts.app')
+@extends('admin.layouts.loguser')
 
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-8">
+        <div class="col-md-8 panel" style="padding:30px">
             <div class="card">
                 <div class="card-header">{{ __('Reset Password') }}</div>
 

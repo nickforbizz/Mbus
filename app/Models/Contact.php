@@ -7,16 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * @property int $id
  * @property int $mobile_number
+ * @property string $email
  * @property int $telephone_number
  * @property string $address
+ * @property string $social_media_links
+ * @property string $date_added
  * @property int $status
- * @property string $created_at
- * @property string $updated_at
- * @property string $deleted_at
- * @property Conductor[] $conductors
- * @property Driver[] $drivers
- * @property Employee[] $employees
- * @property Passanger[] $passangers
  * @property User[] $users
  */
 class Contact extends Model
@@ -31,7 +27,7 @@ class Contact extends Model
     /**
      * @var array
      */
-    protected $fillable = ['mobile_number', 'telephone_number', 'address', 'status', 'created_at', 'updated_at', 'deleted_at'];
+    protected $fillable = ['mobile_number', 'email', 'telephone_number', 'address', 'social_media_links', 'date_added', 'status'];
 
     /**
      * The connection name for the model.
@@ -39,38 +35,6 @@ class Contact extends Model
      * @var string
      */
     protected $connection = 'mysql';
-
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function conductors()
-    {
-        return $this->hasMany('App\Models\Conductor');
-    }
-
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function drivers()
-    {
-        return $this->hasMany('App\Models\Driver');
-    }
-
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function employees()
-    {
-        return $this->hasMany('App\Models\Employee');
-    }
-
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function passangers()
-    {
-        return $this->hasMany('App\Models\Passanger');
-    }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany

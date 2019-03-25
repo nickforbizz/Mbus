@@ -13,9 +13,6 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $guests
  * @property int $status
  * @property string $date_added
- * @property string $created_at
- * @property string $updated_at
- * @property string $deleted_at
  * @property User $user
  */
 class MessageBoard extends Model
@@ -30,7 +27,7 @@ class MessageBoard extends Model
     /**
      * @var array
      */
-    protected $fillable = ['user_id', 'title', 'categoty', 'message_body', 'guests', 'status', 'date_added', 'created_at', 'updated_at', 'deleted_at'];
+    protected $fillable = ['user_id', 'title', 'categoty', 'message_body', 'guests', 'status', 'date_added'];
 
     /**
      * The connection name for the model.

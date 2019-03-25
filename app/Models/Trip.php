@@ -13,13 +13,13 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $time_trip_started
  * @property int $status
  * @property string $timespan
- * @property string $created_at
- * @property string $updated_at
- * @property string $deleted_at
  * @property Bus $bus
  * @property Conductor $conductor
  * @property Driver $driver
- * @property Busroute $busroute
+ * @property Route $route
+ * @property Conductor[] $conductors
+ * @property Driver[] $drivers
+ * @property Employee[] $employees
  */
 class Trip extends Model
 {
@@ -33,7 +33,7 @@ class Trip extends Model
     /**
      * @var array
      */
-    protected $fillable = ['bus_id', 'route_id', 'driver_id', 'conductor_id', 'time_trip_started', 'status', 'timespan', 'created_at', 'updated_at', 'deleted_at'];
+    protected $fillable = ['bus_id', 'route_id', 'driver_id', 'conductor_id', 'time_trip_started', 'status', 'timespan'];
 
     /**
      * The connection name for the model.
@@ -69,8 +69,32 @@ class Trip extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function busroute()
+    public function route()
     {
-        return $this->belongsTo('App\Models\Busroute', 'route_id');
+        return $this->belongsTo('App\Models\Route');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function conductors()
+    {
+        return $this->hasMany('App\Models\Conductor');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function drivers()
+    {
+        return $this->hasMany('App\Models\Driver');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function employees()
+    {
+        return $this->hasMany('App\Models\Employee');
     }
 }

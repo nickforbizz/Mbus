@@ -12,11 +12,13 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $b_coodinates
  * @property string $a_terminal
  * @property string $b_terminal
+ * @property int $stops
  * @property string $date_added
  * @property int $status
  * @property string $created_at
  * @property string $updated_at
  * @property string $deleted_at
+ * @property Bus[] $buses
  * @property Ticket[] $tickets
  * @property Trip[] $trips
  */
@@ -32,7 +34,7 @@ class Busroute extends Model
     /**
      * @var array
      */
-    protected $fillable = ['name', 'distance', 'a_coodinates', 'b_coodinates', 'a_terminal', 'b_terminal', 'date_added', 'status', 'created_at', 'updated_at', 'deleted_at'];
+    protected $fillable = ['name', 'distance', 'a_coodinates', 'b_coodinates', 'a_terminal', 'b_terminal', 'stops', 'date_added', 'status', 'created_at', 'updated_at', 'deleted_at'];
 
     /**
      * The connection name for the model.
@@ -40,6 +42,14 @@ class Busroute extends Model
      * @var string
      */
     protected $connection = 'mysql';
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function buses()
+    {
+        return $this->hasMany('App\Models\Bus', 'route_id');
+    }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany

@@ -11,37 +11,42 @@
 |
 */
 
-// static pages
-Route::get('/', 'pagesController@welcome');
 
-Route::get('/about', 'pagesController@about');
-
-Route::get('/contact', 'pagesController@contact');
-
-Route::get('users/user', 'pagesController@user');
-Route::post('users/registerUser', 'UserController@register' );
-Route::post('users/updateUser', 'UserController@updateUser' );
-Route::get('users/addUser', 'pagesController@addUser');
-Route::get('users/assignRole/{user_id}', 'pagesController@assignRole');
-
-Route::get('bus/view_bus', 'pagesController@bus');
-Route::get('bus/add', 'pagesController@addBus');
-Route::get('bus/maintenance', 'pagesController@maintenance');
-Route::get('bus/edit/{bus_id}', 'pagesController@editBus');
+    Route::get('/auth_login_admin', function(){
+        return "admin Login Form";
+    })->name('auth_login_admin');
+    Route::get('/auth_login_user', function(){
+        return "User Login Form";
+    })->name('auth_login_user');
 
 
 
-
-Route::post('/registerBus', 'BusController@register' );
-Route::post('/registerBusRoute', 'BusrouteController@register' );
+    Route::get('/klove/{toString}', "KloveController@index");
 
 
-Route::get('/klove/{toString}', "KloveController@index");
 
-Auth::routes();
+    Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+    Route::get('/',function(){
+        return view('layouts.pages.index');
+    });
+    Route::get('/about', 'webController@about');
+    Route::get('/contact', 'webController@contact');
+    Route::get('/blog', 'webController@blog');
 
-Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+//    Route::post('/auth/admin', 'admin\adminController@checkAdmin')->name('admin.auth');
+//    Route::get('/auth/admin', 'admin\adminController@loginform')->name('admin.auth.login');
+
+Route::group(['prefix'=>'admin','namespace'=>'admin','as'=>"admin."], function () {
+    Auth::routes();
+});
+
+Route::group(['prefix'=>'admin','middleware'=>'admin'], function () {
+        include('admin_web.php');
+    });
+
+
+    Route::group(['middleware'=>'web'], function () {
+        include('frontend_web.php');
+    });

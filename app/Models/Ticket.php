@@ -14,11 +14,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $date_booked
  * @property string $date_to_expire
  * @property int $status
- * @property string $created_at
- * @property string $updated_at
- * @property string $deleted_at
  * @property Bus $bus
- * @property Busroute $busroute
+ * @property Route $route
  */
 class Ticket extends Model
 {
@@ -32,7 +29,7 @@ class Ticket extends Model
     /**
      * @var array
      */
-    protected $fillable = ['bus_id', 'route_id', 'ticket_number', 'amount', 'luggages', 'date_booked', 'date_to_expire', 'status', 'created_at', 'updated_at', 'deleted_at'];
+    protected $fillable = ['bus_id', 'route_id', 'ticket_number', 'amount', 'luggages', 'date_booked', 'date_to_expire', 'status'];
 
     /**
      * The connection name for the model.
@@ -52,8 +49,8 @@ class Ticket extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function busroute()
+    public function route()
     {
-        return $this->belongsTo('App\Models\Busroute', 'route_id');
+        return $this->belongsTo('App\Models\Route');
     }
 }

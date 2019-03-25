@@ -32,248 +32,187 @@
         <input type="submit" name="submit" class="btn btn-large btn-success">
     </div>
 
-
-@elseif($code=="driver")
-
-
-<input type="hidden" name="driver_id" value="${data.id}">
-{{csrf_field() }}
-
-<div class="form-group col-md-4">
-    <label for="deduct">Bus:</label>
-    <select name="bus" id="deduct"  class="form-control" required>
-        <option selected disabled>Change Bus</option>
-        @foreach (App\Models\Bus::where('status', 1)->get() as $bus)
-        <option value="{{ $bus->id }}">{{ $bus->bus_number }}</option>
-        @endforeach
-    </select>
-</div>
-
-<div class="form-group col-md-4">
-    <label for="shift">Shift:</label>
-    <select name="shift" id="shift"  class="form-control" required>
-        <option selected disabled>Change Shift</option>
-        @foreach (App\Models\Shift::where('status', 1)->get() as $shift)
-        <option value="{{ $shift->id }}">{{ $shift->shift_time }}</option>
-        @endforeach
-    </select>
-</div>
-<div class="form-group col-md-12">
-    <label for="emp_status">Employment:</label>
-    <select name="emp_status" id="emp_status"  class="form-control" required>
-        <option selected disabled>Change Status</option>
-        <option value="1">Active</option>
-        <option value="2">Dormant</option>
-    </select>
-</div>
+@elseif($code=="Bookticket")
 
 
-@elseif($code=="Conductor")
+    <div class="container" style="margin-top:5px;">
+        <div class="row" >
+            <div class="col-md-4">
+                <div class="card" style="">
+                    <img class="card-img-top" src="{{ asset('web_assets/images/bus.png') }}" alt="Card image">
+                    <div class="card-body">
+                        <div id="accordion">
+                            <div class="card">
+                                <div class="card-header">
+                                    <a class="card-link" data-toggle="collapse" href="#busDetails">
+                                        <ul class="list-group">
+                                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                Bus Details
+                                                <span class="badge badge-primary badge-pill p-2">Click</span>
+                                            </li>
+                                        </ul>
+                                    </a>
+                                </div>
+                                <div id="busDetails" class="collapse" data-parent="#accordion">
+                                    <div class="card-body">
+                                        <ul class="list-group">
+                                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                <p>Bus No <i>${data.bus_number} </i> </p>
+                                                {{--<p>Model <i>${data.model} </i> </p>--}}
 
+                                                <span class="badge badge-primary badge-pill p-1">Rated 12*</span>
+                                            </li>
+                                            <input type="hidden" name="bus_id" value="${data.id}">
+                                            <input type="hidden" name="route_id" value="${data.Busroute.id}">
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
 
-<input type="hidden" name="conductor_id" value="${data.id}">
-{{csrf_field() }}
+                            <div class="card">
+                                <div class="card-header">
+                                    <a class="collapsed card-link" data-toggle="collapse" href="#driverDetails">
+                                        <ul class="list-group"> </ul>
+                                    </a>
+                                </div>
+                                <div id="driverDetails" class="collapse" data-parent="#accordion">
+                                    <div class="card-body">
+                                        <div id="drivers">
 
-<div class="form-group col-md-4">
-    <label for="bus">Bus:</label>
-    <input list="bus" name="bus" class="form-control" placeholder="select bus" required>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-text"> <b>Reviews</b> </div>
+                    </div>
+                </div>
+                <hr class="d-sm-none">
+            </div>
 
-    <datalist id="bus">
-        @foreach (App\Models\Bus::where('status', 1)->get() as $bus)
-        <option value="{{ $bus->id }}">Bus NO: {{ $bus->bus_number }}</option>
-        @endforeach
-    </datalist>
-</div>
+        <div  class="col-md-8 card shadow cardTick"  id="nxt">
+                <div class="d-flex justify-content-end" >
+                 <button class="btn btn-primary" id="nextBtn" onclick="togglePosition('nxt')" >Next</button>
+                </div>
+                <h4>Get Your Ticket</h4>
+                <h5>Dated, {{ \Carbon\Carbon::now()->diffForHumans() }}</h5>
+                <div classh="card p-4 "" style="float:left;width:-webkit-fill-available;">
+                        <div class="rowgfdg ">
+                        <div class="form-group col-md-12">
+                            <label for="ticket_no">Ticket Number:</label>
+                            <span class="badge badge-info" style="height: 30px; width: 30px; text-align: center;padding: 7px;">
+                                ${newVal}
+                            </span>
+                            <input type="hidden" name="ticket_number" value="${newVal}">
+                        </div>
+                        <div class="d-flex">
+                        <div class="form-group pl-2 flex-fill">
+                            <label for="passanger_name">Name:</label>
+                            <input type="text" name="passanger_name" class="form-control" placeholder="Enter your name"  id="passanger_name" required>
+                        </div>
+                        <div class="form-group pl-2 flex-fill">
+                            <label for="passanger_id">National ID:</label>
+                            <input type="number" name="passanger_id" class="form-control" placeholder="Enter your ID"  id="passanger_id" required>
+                        </div>
+                        </div>
+                        <div class="d-flex">
+                        <div class="form-group pl-2 flex-fill">
+                            <label for="start">From:</label>
+                            <input type="text" name="start" class="form-control" value="${data.Busroute.a_terminal}"  id="start" required disabled>
+                        </div>
+                        <div class="form-group pl-2 flex-fill">
+                            <label for="destination">To:</label>
+                            <input type="text" name="destination" class="form-control" value="${data.Busroute.b_terminal}"  id="destination" disabled="disabled" required>
+                        </div>
+                        </div>
+                        <div class="d-flex">
+                        <div class="form-group pl-2 flex-fill">
+                            <label for="booked_at">Time To Travel:</label>
+                            <input type="date" name="booked_at" class="form-control" value="{{\Carbon\Carbon::now()->diffForHumans()}}"  id="booked_at" required>
+                        </div>
+                        <div class="form-group pl-2 flex-fill">
+                            <label for="booked_at">Time To Expire:</label>
+                            <input type="date" name="exp_at" class="form-control" value="{{\Carbon\Carbon::now()->diffForHumans()}}"  id="booked_at" required>
+                        </div>
+                        <div class="form-group pl-2 flex-fill">
+                            <label for="amount">Amount in ksh/=:</label>
+                            <input type="number" name="amount" class="form-control" value="150 "  id="amount" required>
+                        </div>
+                        </div>
+                        <hr> {{csrf_field() }}
+                        <div class="col-12">
+                            {{-- <input type="submit" value="Get This Ticket" class="btn btn-success btn-lg"> --}}
+                        </div>
+                        </div>
 
-<div class="form-group col-md-4">
-    <label for="shift">Shift:</label>
-    <input list="shift" name="shift" class="form-control" placeholder="select Shift" required>
+                </div>
 
-    <datalist id="shift">
-        @foreach (App\Models\Shift::where('status', 1)->get() as $shift)
-        <option value="{{ $shift->id }}">Shift: {{ $shift->shift_time }}</option>
-        @endforeach
-    </datalist>
-</div>
-<div class="form-group col-md-12">
-    <label for="emp_status">Employment:</label>
-    <input list="emp_status" name="emp_status" class="form-control" placeholder="select emp_status" required>
+                <br>
+            </div>
 
-    <datalist id="emp_status">
-        <option value="1">: Active</option>
-        <option value="2">: Dormant</option>
-    </datalist>
-</div>
+             <div class="col-md-12 card shadow" id="prev">
+                 <div class="d-flex justify-content-end" >
+                     <button class="btn btn-primary" id="prevBtn" onclick="togglePosition2('prev')" >Prev</button>
+                 </div>
+                <h4 class="fa-stop">Select Seat(s)</h4>
+                <h5>Dated, {{ \Carbon\Carbon::now()->diffForHumans() }}</h5>
 
+                <div classh="card p-4" style="float:left;width:-webkit-fill-available;">
 
-@elseif($code=="employee")
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="row d-flex justify-content-center">
+                                <div class="col-1 p-2 m-2 seat" onclick="busseat(this, 1)">1</div>
+                                <div class="col-1 p-2 m-2 seat" onclick="busseat(this, 2)">2</div>
+                                <div class="col-1 p-2 m-2 seat" onclick="busseat(this, 3)">3</div>
+                                <div class="col-1 p-2 m-2 seat" onclick="busseat(this, 4)">4</div>
+                                <div class="col-1 p-2 m-2 seat" onclick="busseat(this, 5)">5</div>
+                                <div class="col-1 p-2 m-2 seat" onclick="busseat(this, 6)">6</div>
+                            </div>
+                        </div>
+                        <div class="col-12" >
+                            <div class="row d-flex justify-content-center">
+                                <div class="col-1 p-2 m-2 seat" onclick="busseat(this, 7)">7</div>
+                                <div class="col-1 p-2 m-2 seat" onclick="busseat(this, 8)">8</div>
+                                <div class="col-1 p-2 m-2 seat" onclick="busseat(this, 9)">9</div>
+                                <div class="col-1 p-2 m-2 seat" onclick="busseat(this, 10)">10</div>
+                                <div class="col-1 p-2 m-2 seat" onclick="busseat(this, 11)">11</div>
+                                <div class="col-1 p-2 m-2 seat" onclick="busseat(this, 12)">12</div>
+                                <hr/>
+                            </div>
+                        </div>
+                        <div class="col-12 p-4 path-bus text-center"><i>Bus Path way </i></div>
+                        <div class="col-12">
+                            <div class="row d-flex justify-content-center">
+                                <hr/>
+                                <div class="col-1 p-2 m-2 seat" onclick="busseat(this, 13)">13</div>
+                                <div class="col-1 p-2 m-2 seat" onclick="busseat(this, 14)">14</div>
+                                <div class="col-1 p-2 m-2 seat" onclick="busseat(this, 15)">15</div>
+                                <div class="col-1 p-2 m-2 seat" onclick="busseat(this, 16)">16</div>
+                                <div class="col-1 p-2 m-2 seat" onclick="busseat(this, 17)">17</div>
+                                <div class="col-1 p-2 m-2 seat" onclick="busseat(this, 18)">18</div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="row d-flex justify-content-center">
+                                <div class="col-1 p-2 m-2 seat" onclick="busseat(this, 19)">19</div>
+                                <div class="col-1 p-2 m-2 seat" onclick="busseat(this, 20)">20</div>
+                                <div class="col-1 p-2 m-2 seat" onclick="busseat(this, 21)">21</div>
+                                <div class="col-1 p-2 m-2 seat" onclick="busseat(this, 22)">22</div>
+                                <div class="col-1 p-2 m-2 seat" onclick="busseat(this, 23)">23</div>
+                                <div class="col-1 p-2 m-2 seat" onclick="busseat(this, 24)">24</div>
+                            </div>
+                        </div>
+                    </div>
 
+                </div>
 
-<input type="hidden" name="employee_id" value="${data.id}">
-{{csrf_field() }}
+                <br>
+            </div>
+        </div>
 
-<div class="form-group col-md-4">
-    <label for="shift">Shift:</label>
-    <input list="shift" name="shift" class="form-control" placeholder="select Shift" required>
+        </div>
 
-    <datalist id="shift">
-        @foreach (App\Models\Shift::where('status', 1)->get() as $shift)
-        <option value="{{ $shift->id }}">Shift: {{ $shift->shift_time }}</option>
-        @endforeach
-    </datalist>
-</div>
-<div class="form-group col-md-12">
-    <label for="emp_status">Employment:</label>
-    <input list="emp_status" name="emp_status" class="form-control" placeholder="select emp_status" required>
-
-    <datalist id="emp_status">
-        <option value="1">: Active</option>
-        <option value="2">: Dormant</option>
-    </datalist>
-</div>
-
-
-@elseif($code=="Passanger")
-
-<input type="hidden" name="passanger_id" value="${data.id}">
-{{csrf_field() }}
-<div class="form-group col-md-4">
-    <label for="fname">First Name:</label>
-    <input type="text" name="fname" class="form-control" value="${ data.fname }" required>
-</div>
-<div class="form-group col-md-4">
-    <label for="lname">Last Name:</label>
-    <input type="text" name="lname" class="form-control" value="${ data.lname }" required>
-</div>
-<div class="form-group col-md-4">
-    <label for="sname">SurName:</label>
-    <input type="text" name="sname" class="form-control" value="${ data.sname }" required>
-</div>
-<div class="form-group col-md-4">
-    <label for="username">Username:</label>
-    <input type="text"  name="username" class="form-control" value="${ data.username }" required>
-</div>
-<div class="form-group col-md-4">
-    <label for="email">Email:</label>
-    <input type="email"  name="email" class="form-control" value="${ data.email }" required>
-</div>
-<div class="form-group col-md-4">
-    <label for="gender">Gender:</label>
-    <input list="gender_pass"  name="gender" class="form-control" value="${ data.gender }" required>
-
-    <datalist id="gender_pass">
-            <option value="MALE">
-            <option value="FEMALE">
-    </datalist>
-</div>
-<div class="form-group col-md-4">
-    <label for="age">Age:</label>
-    <input type="number" name="age" class="form-control" value="${ data.age }" required>
-</div>
-
-@elseif($code=="ticket")
-
-<input type="hidden" name="ticket_id" value="${data.id}">
-{{csrf_field() }}
-<div class="form-group col-md-4">
-    <label for="bus_number"> Bus Number:</label>
-    <input list="bus_number" name="bus_number" class="form-control" placeholder="${ data.bus.bus_number }" required>
-
-    <datalist id="bus_number">
-        @foreach (App\Models\Bus::where('status', 1)->get() as $bus)
-        <option value="{{ $bus->id }}">: {{ $bus->bus_number }}</option>
-        @endforeach
-    </datalist>
-</div>
-<div class="form-group col-md-4">
-    <label for="busroute"> Bus Route:</label>
-    <input list="busroute" name="busroute" class="form-control" placeholder="${ data.busroute.name }" required>
-
-    <datalist id="busroute">
-        @foreach (App\Models\Busroute::where('status', 1)->get() as $busroute)
-        <option value="{{ $busroute->id }}">: {{ $busroute->name }}</option>
-        @endforeach
-    </datalist>
-</div>
-
-<div class="form-group col-md-4">
-    <label for="amount">Amount:</label>
-    <input type="text" name="amount" class="form-control" value="${ data.amount }" required>
-</div>
-
-<div class="form-group col-md-4">
-    <label for="status">Status:</label>
-    <input list="status"  name="status" class="form-control" placeholder="Change Status" required>
-
-    <datalist id="status">
-            <option value="1">
-            <option value="0">
-    </datalist>
-</div>
-
-
-@elseif($code=="trip")
-
-
-<input type="hidden" name="trip_id" value="${data.id}">
-{{csrf_field() }}
-<div class="form-group col-md-4">
-    <label for="time_trip_started">Time Trip Started:</label>
-    <input type="time" name="time_trip_started" class="form-control" value="${ data.time_trip_started }" required>
-</div>
-<div class="form-group col-md-4">
-    <label for="timespan">Trip Timespan:</label>
-    <input type="text" name="timespan" class="form-control" value="${ data.timespan }" required>
-</div>
-<div class="form-group col-md-4">
-    <label for="status">Status:</label>
-    <input list="thestatus" name="status" class="form-control" value="${ data.status }" required>
-
-    <datalist id="thestatus">
-        <option value="1">
-        <option value="2">
-    </datalist>
-</div>
-
-<div class="form-group col-md-4">
-    <label for="driver">Driver :</label>
-    <input list="driver" name="driver" class="form-control" placeholder="select Driver" required>
-
-    <datalist id="driver">
-        @foreach (App\Models\Driver::where('status', 1)->get() as $driver)
-        <option value="{{ $driver->id }}">: {{ $driver->User->username }}</option>
-        @endforeach
-    </datalist>
-</div>
-<div class="form-group col-md-4">
-    <label for="conductor">Conductor:</label>
-    <input list="conductor" name="conductor" class="form-control" placeholder="select conductor" required>
-
-    <datalist id="conductor">
-        @foreach (App\Models\Conductor::where('status', 1)->get() as $conductor)
-        <option value="{{ $conductor->id }}">conductor: {{ $conductor->User->username }}</option>
-        @endforeach
-    </datalist>
-</div>
-<div class="form-group col-md-4">
-    <label for="bus">Bus:</label>
-    <input list="bus" name="bus" class="form-control" placeholder="select bus" required>
-
-    <datalist id="bus_number">
-        @foreach (App\Models\Bus::where('status', 1)->get() as $bus)
-        <option value="{{ $bus->id }}">bus: {{ $bus->bus_number }}</option>
-        @endforeach
-    </datalist>
-</div>
-<div class="form-group col-md-4">
-    <label for="busroute">Busroute:</label>
-    <input list="busroute" name="busroute" class="form-control" placeholder="select busroute" required>
-
-    <datalist id="busroute">
-        @foreach (App\Models\Busroute::where('status', 1)->get() as $busroute)
-        <option value="{{ $busroute->id }}">: {{ $busroute->name }}</option>
-        @endforeach
-    </datalist>
-</div>
+    </div>
 
 @endif

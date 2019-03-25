@@ -8,24 +8,43 @@ use App\Models\Bus;
 class pagesController extends Controller
 {
     public function welcome() {
-        return view('welcome');
+        return view('admin.welcome');
+    }
+    public function well() {
+        return view('admin.well');
     }
 
     public function about() {
-        return view('about');
+        return view('admin.about');
     }
 
     public function contact() {
-        return view('contact');
+        return view('admin.contact');
     }
 
     // users
     public function user() {
-        return view('users.user');
+        return view('admin.users.user');
     }
 
     public function addUser() {
-        return view('users.addUser');
+        return view('admin.users.addUser');
+    }
+
+    public function driver() {
+        return view('admin.users.driver');
+    }
+
+    public function conductor() {
+        return view('admin.users.conductor');
+    }
+
+    public function passanger() {
+        return view('admin.users.passanger');
+    }
+
+    public function employee() {
+        return view('admin.users.employee');
     }
 
     public function assignRole($user_id) {
@@ -39,19 +58,19 @@ class pagesController extends Controller
             return redirect(url("user"));
         }
         $id = $user_id;
-        return view('users.assignRole', compact('id'));
+        return view('admin.users.assignRole', compact('id'));
     }
 
     // bus
     public function bus()
     {
-        $busses = Bus::where('status', '1')->get();
-        return view("bus.view_bus", compact('busses'));
+        $buses = Bus::where('status', '1')->get();
+        return view("admin.bus.view_bus", compact('buses'));
     }
 
     public function addBus()
     {
-        return view("bus.addBus");
+        return view("admin.bus.addBus");
     }
 
     public function editBus($bus_id) {
@@ -65,7 +84,7 @@ class pagesController extends Controller
             return redirect(url("bus"));
         }
         $id = $bus_id;
-        return view('bus.editBus', compact('id'));
+        return view('admin.bus.editBus', compact('id'));
     }
 
     public function maintenance()
@@ -73,4 +92,34 @@ class pagesController extends Controller
         return view("bus.maintenance");
     }
 
+    public function busRoute()
+    {
+        return view("bus.busRoute");
+    }
+
+    // expenses
+    public function salary()
+    {
+        return view("expences.salary");
+    }
+    public function user_damages()
+    {
+        return view("expences.user_damages");
+    }
+    public function deductions()
+    {
+        return view("expences.deductions");
+    }
+
+
+    // Trip
+    public function trip()
+    {
+        return view("admin.trip");
+    }
+     // Ticket
+     public function ticket()
+     {
+         return view("admin.tickets");
+     }
 }

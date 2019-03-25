@@ -6,16 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * @property int $id
- * @property int $maintenance_id
  * @property int $bus_number
  * @property int $capacity
  * @property string $model
- * @property string $owner
+ * @property string $maintenance
  * @property int $status
- * @property string $created_at
- * @property string $updated_at
- * @property string $deleted_at
- * @property Maintenance $maintenance
+ * @property string $date_added
+ * @property string $owner
  * @property Ticket[] $tickets
  * @property Trip[] $trips
  */
@@ -31,7 +28,7 @@ class Bus extends Model
     /**
      * @var array
      */
-    protected $fillable = ['maintenance_id', 'bus_number', 'capacity', 'model', 'owner', 'status', 'created_at', 'updated_at', 'deleted_at'];
+    protected $fillable = ['bus_number', 'capacity', 'model', 'maintenance', 'status', 'date_added', 'owner'];
 
     /**
      * The connection name for the model.
@@ -39,14 +36,6 @@ class Bus extends Model
      * @var string
      */
     protected $connection = 'mysql';
-
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function maintenance()
-    {
-        return $this->belongsTo('App\Models\Maintenance');
-    }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany

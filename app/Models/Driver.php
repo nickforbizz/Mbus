@@ -6,16 +6,16 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * @property int $id
- * @property int $contact_id
+ * @property int $user_id
+ * @property int $salary_id
+ * @property int $trip_id
  * @property string $shift_time
  * @property string $date_employed
  * @property int $employment_status
- * @property int $salary_id
  * @property int $status
- * @property string $created_at
- * @property string $updated_at
- * @property string $deleted_at
- * @property Contact $contact
+ * @property Salary $salary
+ * @property Trip $trip
+ * @property User $user
  * @property Trip[] $trips
  */
 class Driver extends Model
@@ -30,7 +30,7 @@ class Driver extends Model
     /**
      * @var array
      */
-    protected $fillable = ['contact_id', 'shift_time', 'date_employed', 'employment_status', 'salary_id', 'status', 'created_at', 'updated_at', 'deleted_at'];
+    protected $fillable = ['user_id', 'salary_id', 'trip_id', 'shift_time', 'date_employed', 'employment_status', 'status'];
 
     /**
      * The connection name for the model.
@@ -42,9 +42,25 @@ class Driver extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function contact()
+    public function salary()
     {
-        return $this->belongsTo('App\Models\Contact');
+        return $this->belongsTo('App\Models\Salary');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function trip()
+    {
+        return $this->belongsTo('App\Models\Trip');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function user()
+    {
+        return $this->belongsTo('App\Models\User');
     }
 
     /**

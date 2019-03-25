@@ -6,18 +6,15 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * @property int $id
- * @property int $deductions_id
- * @property int $user_damages_id
  * @property int $category
+ * @property int $benefits
+ * @property int $deductions
  * @property int $basic_salary
  * @property int $total_salary
  * @property int $status
  * @property string $date_added
- * @property string $created_at
- * @property string $updated_at
- * @property string $deleted_at
- * @property Deduction $deduction
- * @property UserDamage $userDamage
+ * @property Conductor[] $conductors
+ * @property Driver[] $drivers
  * @property Employee[] $employees
  */
 class Salary extends Model
@@ -32,7 +29,7 @@ class Salary extends Model
     /**
      * @var array
      */
-    protected $fillable = ['deductions_id', 'user_damages_id', 'category', 'basic_salary', 'total_salary', 'status', 'date_added', 'created_at', 'updated_at', 'deleted_at'];
+    protected $fillable = ['category', 'benefits', 'deductions', 'basic_salary', 'total_salary', 'status', 'date_added'];
 
     /**
      * The connection name for the model.
@@ -42,19 +39,19 @@ class Salary extends Model
     protected $connection = 'mysql';
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function deduction()
+    public function conductors()
     {
-        return $this->belongsTo('App\Models\Deduction', 'deductions_id');
+        return $this->hasMany('App\Models\Conductor');
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function userDamage()
+    public function drivers()
     {
-        return $this->belongsTo('App\Models\UserDamage', 'user_damages_id');
+        return $this->hasMany('App\Models\Driver');
     }
 
     /**

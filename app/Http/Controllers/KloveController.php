@@ -26,7 +26,7 @@ class KloveController extends Controller
             }
 
             return collect($data)->map(function ($item) use ($seperator){
-                return collect($item)->implode($seperator);
+            return collect($item)->implode($seperator);
 
             })->flatten()->implode($seperator);
         }
